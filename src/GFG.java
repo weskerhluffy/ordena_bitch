@@ -21,34 +21,30 @@ class GFG {
 		return r;
 	}
 
-	static Integer i = 0;
-
 	static int[] rearrange(int[] elements) {
-		// List<int>
-		// r=StreamSupport.stream(Spliterators.spliteratorUnknownSize(Arrays.asList(elements).listIterator(),
-		// Spliterator.ORDERED), false).sorted((it1,it2)->it.nextIndex());
-		i = 0;
-		int[] r = IntStream.of(elements).boxed().map((n) -> new SimpleEntry<Integer, Integer>(i++, n))
-				.sorted((e1, e2) -> bitCount(e1.getValue()) == bitCount(e2.getValue()) ? e1.getKey() - e2.getKey()
-						: bitCount(e2.getValue()) - bitCount(e1.getValue()))
-				.map((e) -> e.getValue()).mapToInt(Integer::intValue).toArray();
+		int[] r = IntStream.of(elements).boxed()
+				.sorted((a, b) -> bitCount(a) == bitCount(b) ? a - b : bitCount(a) - bitCount(b))
+				.mapToInt(Integer::intValue).toArray();
 		return r;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		Scanner in = new Scanner(System.in);
 
-		int t = Integer.parseInt(in.nextLine().trim());
-		for (int i = 0; i < t; i++) {
-			int n = 0;
-			n = Integer.parseInt(in.nextLine().trim());
-
-			int[] a = Stream.of(in.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-
-			int[] results = rearrange(a);
-
-			System.out.println(Arrays.stream(results).mapToObj(String::valueOf).collect(Collectors.joining(" ")));
+		int n = 0;
+		n = Integer.parseInt(in.nextLine().trim());
+		int[] elements = new int[n];
+		int element;
+		for (int i = 0; i < n; i++) {
+			element = Integer.parseInt(in.nextLine().trim());
+			elements[i] = element;
 		}
-		in.close();
+
+		// call rearrange function
+		int[] results = rearrange(elements);
+
+		for (int i = 0; i < results.length; i++) {
+			System.out.println(String.valueOf(results[i]));
+		}
 	}
 }
